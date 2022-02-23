@@ -36,7 +36,6 @@ python = ">=3.9,<3.11"
 
 typer = {extras = ["all"], version = "^0.4.0"}
 rich = "^11.2.0"
-numpy = "<1.23"
 pandas = "^1.4.1"
 pymc3 = "^3.11.4"
 scipy = "^1.8.0"
@@ -51,6 +50,10 @@ GeoAlchemy2 = "^0.10.0"
 pytrends = "^4.7.3"
 Theano-PyMC = "^1.1.2"
 jupyter = "^1.0.0"
+<<<<<<< Updated upstream
+=======
+joblib = "^1.1.0"
+>>>>>>> Stashed changes
 scikit-learn = "^1.0.2"
 tensorflow = "^2.8.0"
 ngboost = {url = "https://github.com/stanfordmlgroup/ngboost/archive/refs/tags/v0.3.12.tar.gz"}

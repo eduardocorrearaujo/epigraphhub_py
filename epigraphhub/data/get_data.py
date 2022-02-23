@@ -257,20 +257,27 @@ def get_cluster_data(
                         "ICU_Covid19Patients": "ICU_patients",
                         "Total_Covid19Patients": "total_hosp",
                     }
-                    df_aux = df.loc[df.geoRegion == region].resample("D").mean()
+                    df_aux1 = df.loc[df.geoRegion == region].resample("D").mean()
 
-                    df_end[names[count] + "_" + region] = df_aux[count]
-                    df_end[f"diff_{names[count]}_{region}"] = df_aux[count].diff(1)
-                    df_end[f"diff_2_{names[count]}_{region}"] = df_aux[count].diff(2)
+                    df_aux2 = pd.DataFrame()
+
+                    df_aux2[names[count] + "_" + region] = df_aux1[count]
+                    df_aux2[f"diff_{names[count]}_{region}"] = df_aux1[count].diff(1)
+                    df_aux2[f"diff_2_{names[count]}_{region}"] = df_aux1[count].diff(2)
+                    
+                    df_end = pd.concat([df_end, df_aux2], axis = 1)
 
                 else:
-                    df_aux = df.loc[df.geoRegion == region].resample("D").mean()
+                    df_aux1 = df.loc[df.geoRegion == region].resample("D").mean()
 
-                    df_end[columns_name[table]+ "_" + region] = df_aux[count]
-           
-                    df_end[f"diff_{columns_name[table]}_{region}"] = df_aux[count].diff(1)
-                    df_end[f"diff_2_{columns_name[table]}_{region}"] = df_aux[count].diff(2)
+                    df_aux2 = pd.DataFrame()
 
+                    df_aux2[columns_name[table]+ "_" + region] = df_aux1[count]
+                    df_aux2[f"diff_{columns_name[table]}_{region}"] = df_aux1[count].diff(1)
+                    df_aux2[f"diff_2_{columns_name[table]}_{region}"] = df_aux1[count].diff(2)
+
+                    df_end = pd.concat([df_end,df_aux2], axis =1)
+                    
     df_end = df_end.resample("D").mean()
 
     if vaccine == True:
