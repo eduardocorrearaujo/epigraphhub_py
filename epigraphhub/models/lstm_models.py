@@ -13,15 +13,11 @@ is forecast time series using recurrent neural networks as lstm ans bi-lstm.
 import pickle
 from datetime import datetime, timedelta
 from time import time
-
 import numpy as np
 import pandas as pd
 import tensorflow.keras as keras
 from matplotlib import pyplot as plt
 
-# import math
-# import os
-# import shap
 from sklearn.metrics import (
     explained_variance_score,
     mean_absolute_error,
