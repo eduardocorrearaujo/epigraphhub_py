@@ -5,6 +5,11 @@ Created on Mon Jan 31 16:20:05 2022
 @author: eduardoaraujo
 """
 
+'''
+This module contains functions to apply neural networks with multiple outputs. The focus of the function
+is forecast time series using recurrent neural networks as lstm ans bi-lstm. 
+'''
+
 import pickle
 from datetime import datetime, timedelta
 from time import time
@@ -49,8 +54,7 @@ def build_model(hidden, features, predict_n, look_back=10, batch_size=1):
         shape=(look_back, features),
         # batch_shape=(batch_size, look_back, features)
     )
-    x = Bidirectional(
-        LSTM(
+    x = LSTM(
             hidden,
             input_shape=(look_back, features),
             stateful=False,
@@ -62,9 +66,7 @@ def build_model(hidden, features, predict_n, look_back=10, batch_size=1):
             recurrent_dropout=0.1,
             implementation=2,
             unit_forget_bias=True,
-        ),
-        merge_mode="ave",
-    )(inp, training=True)
+        )(inp, training=True)
     x = Dropout(0.2)(x, training=True)
     x = Bidirectional(
         LSTM(
@@ -83,8 +85,7 @@ def build_model(hidden, features, predict_n, look_back=10, batch_size=1):
         merge_mode="ave",
     )(x, training=True)
     x = Dropout(0.2)(x, training=True)
-    x = Bidirectional(
-        LSTM(
+    x = LSTM(
             hidden,
             input_shape=(look_back, features),
             kernel_initializer="he_uniform",
@@ -96,9 +97,7 @@ def build_model(hidden, features, predict_n, look_back=10, batch_size=1):
             recurrent_dropout=0.1,
             implementation=2,
             unit_forget_bias=True,
-        ),
-        merge_mode="ave",
-    )(x, training=True)
+        )(x, training=True)
     x = Dropout(0.2)(x, training=True)
     out = Dense(
         predict_n,
@@ -119,6 +118,18 @@ def build_model(hidden, features, predict_n, look_back=10, batch_size=1):
 def train(
     model, X_train, Y_train, batch_size=1, epochs=10, path=None, label="GE", save=False
 ):
+    """
+    Function to train a LSTM model and save the history of the model 
+    :param model: model to be trained
+    :param X_train: arrays. Features to train the model
+    :param Y_train: arrays. Targets of the model 
+    ::param batch_size: int. batch_size used to compute the model 
+    :param epochs: int. epochs of the model
+    :params path: string. Where the model will be saved 
+    :params label: string. Name of the saved file
+    :params save: Boolean. Decide if the history will be saved or not
+    :return: model fitted
+    """
 
     TB_callback = TensorBoard(
         log_dir="./tensorboard",
@@ -154,6 +165,7 @@ def plot_training_history(hist):
     """
     Plot the Loss series from training the model
     :param hist: Training history object returned by "model.fit()"
+    :returns: None 
     """
     df_vloss = pd.DataFrame(hist.history["val_loss"], columns=["val_loss"])
     df_loss = pd.DataFrame(hist.history["loss"], columns=["loss"])
@@ -178,12 +190,16 @@ def plot_predicted_vs_data(
 ):
     """
     Plot the model's predictions against data
-    :param predicted: model predictions
-    :param Ydata: observed data
-    :param indice:
-    :param label: Name of the locality of the predictions
-    :param pred_window:
-    :param factor: Normalizing factor for the target variable
+    :params predicted:array. model predictions
+    :params Ydata:array. observed data
+    :params indice: array|Series. dates of the observed datas
+    :params label: string. Name of the locality of the predictions
+    :params pred_window: int. Lenght of the forecast
+    :params factor: array. Normalizing factor for the target variable
+    :params split_point: int. Separation between the train and test datasets. 
+    :params uncertainty: boolean. If is possible to compute the confidence interval of the predictions from 
+                            the predict param
+    :returns: None
     """
 
     plt.clf()
@@ -195,8 +211,8 @@ def plot_predicted_vs_data(
         df_predicted975 = pd.DataFrame(np.percentile(predicted, 97.5, axis=2))
         uncertainty = True
     ymax = max(predicted.max() * factor, Ydata.max() * factor)
-    plt.vlines(indice[split_point], 0, ymax, "g", "dashdot", lw=2)
-    plt.text(indice[split_point + 2], 0.6 * ymax, "Out of sample Predictions")
+    plt.vlines(indice[split_point], 0, ymax, "g", "dashdot", lw=2, label = 'Train/Test')
+
     # plot only the last (furthest) prediction point
     plt.plot(
         indice[len(indice) - Ydata.shape[0] :],
@@ -247,8 +263,8 @@ def plot_predicted_vs_data(
     plt.xlabel("time")
     plt.ylabel("incidence")
     plt.xticks(rotation=70)
-    plt.legend(["data", "predicted"])
-    # plt.savefig("lstm_{}{}.png".format(canton, tag), bbox_inches="tight", dpi=300,)
+    plt.legend()
+    plt.savefig("lstm_{}{}.png".format(canton, tag), bbox_inches="tight", dpi=300,)
     plt.show()
 
 
@@ -262,6 +278,16 @@ def predict(model, Xdata, Ydata, uncertainty=False):
 
 
 def calculate_metrics(pred, ytrue, factor):
+    '''
+    Function to compute some errors metrics of the predictions and the real data 
+    :params pred: array 1D. Array of 1D size with the predictions 
+    :params ytrue: array 1D. Array of 1D size with the real data 
+    :params factor: array 1D. Correction factor to transform the pred array in the same scale of ytrue
+    :returns: DataFrame
+
+    Observations: len(pred), len(ytrue) and len(factor) MUST be equal
+    '''
+
     metrics = pd.DataFrame(
         index=(
             "mean_absolute_error",
@@ -284,6 +310,7 @@ def calculate_metrics(pred, ytrue, factor):
             r2_score(y, p),
         ]
         metrics[col] = l
+        
     return metrics
 
 
