@@ -559,7 +559,7 @@ woff = ["zopfli (>=0.1.4)", "brotlicffi (>=0.8.0)", "brotli (>=1.0.1)"]
 
 [[package]]
 name = "geoalchemy2"
-version = "0.10.2"
+version = "0.11.1"
 description = "Using SQLAlchemy with Spatial Databases"
 category = "main"
 optional = false
@@ -2329,7 +2329,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.11"
-content-hash = "db5da1314c5eebaa041d952d3177bfd069ebd79f09f73907778bf99feaeeaa02"
+content-hash = "2b1b393f1a98b6ce15626013e7c59ee613a339dadc9678da00cb4d52acca9d39"
 
 [metadata.files]
 alabaster = [
@@ -2725,8 +2725,8 @@ fonttools = [
     {file = "fonttools-4.29.1.zip", hash = "sha256:2b18a172120e32128a80efee04cff487d5d140fe7d817deb648b2eee023a40e4"},
 ]
 geoalchemy2 = [
-    {file = "GeoAlchemy2-0.10.2-py2.py3-none-any.whl", hash = "sha256:22350c34c4c31faead91b2f0146b68835dcd66c34122ba1f2277a9dfb6543baa"},
-    {file = "GeoAlchemy2-0.10.2.tar.gz", hash = "sha256:3db833746e11bc802b754751ec94eaab81009a9ad8fe647d461fe76d1a47a3fd"},
+    {file = "GeoAlchemy2-0.11.1-py2.py3-none-any.whl", hash = "sha256:43ce38a5387c9b380b4c9d20d720c3d8cf1752ca4f5f18aa88041be11f6948a3"},
+    {file = "GeoAlchemy2-0.11.1.tar.gz", hash = "sha256:f92a0faddb5b74384dbbf3c7000433358ce8e07a180fe1d6c2843eaa0437ff08"},
 ]
 geopandas = [
     {file = "geopandas-0.10.2-py2.py3-none-any.whl", hash = "sha256:1722853464441b603d9be3d35baf8bde43831424a891e82a8545eb8997b65d6c"},
