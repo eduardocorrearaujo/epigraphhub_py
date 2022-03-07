@@ -82,7 +82,7 @@ def get_georegion_data(schema, table_name, georegion, columns):
 
     :params table_name: string. Name of the table that you want to get the data.
 
-    :param sgeoregion: list of strings| string. This list contains all the regions of the country of interest or the string 'All'
+    :params georegion: list of strings| string. This list contains all the regions of the country of interest or the string 'All'
                             to return all the regions.
 
     :params columns: list of strings| None. Columns that you want to select from the table table_name. If None all the columns will be returned.
