@@ -151,7 +151,7 @@ tensorboard==2.8.0; python_version >= "3.6"
 tensorflow-io-gcs-filesystem==0.24.0; python_version >= "3.7" and python_version < "3.11"
 tensorflow==2.8.0
 termcolor==1.1.0
-terminado==0.13.3; python_version >= "3.7"
+terminado==0.17.0; python_version >= "3.7"
 testpath==0.6.0; python_version >= "3.7"
 tf-estimator-nightly==2.8.0.dev2021122109
 theano-pymc==1.1.2
