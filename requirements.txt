@@ -142,7 +142,7 @@ snuggs==1.4.7; python_version >= "3.8"
 soupsieve==2.3.1; python_full_version > "3.0.0" and python_version >= "3.7"
 sqlalchemy==1.4.34; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.6.0")
 sshtunnel==0.4.0
-stack-data==0.2.0; python_version >= "3.8"
+stack-data==0.5.1; python_version >= "3.8"
 tabulate==0.8.9
 tenacity==8.0.1; python_version >= "3.6"
 tensorboard-data-server==0.6.1; python_version >= "3.6"
